@@ -51,10 +51,13 @@ class matches_mapper_web extends matches_mapper {
     }
 
     /**
+	@param startMatchID optional match ID if you want to go beyond the first 25 matches for a request
      * @return array
      */
-    public function load() {
+    public function load($startMatchID = NULL) {
         $request = new request(self::steam_matches_url, $this->_get_data_array());
+		if(isset($startMatchID))
+			$request->set_parameter('start_at_match_id',$startMatchID);
         $xml = $request->send();
         if (is_null($xml)) {
             return null;
